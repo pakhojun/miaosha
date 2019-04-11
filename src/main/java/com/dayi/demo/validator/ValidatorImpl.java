@@ -23,17 +23,17 @@ public class ValidatorImpl implements InitializingBean {
     }
 
     public ValidatorResult validate(Object bean) {
-        ValidatorResult validatorResult = new ValidatorResult();
-        Set<ConstraintViolation<Object>> constraintViolationSet = validator.validate(bean);
-        if (constraintViolationSet.size() > 0) {
-            validatorResult.setHasErrors(true);
-            constraintViolationSet.forEach(constraintViolation -> {
-                String errmsg = constraintViolation.getMessage();
-                String propertyName = constraintViolation.getPropertyPath().toString();
-                validatorResult.getErrorMsgMap().put(propertyName, errmsg);
-            });
-        }
-        return validatorResult;
+            ValidatorResult validatorResult = new ValidatorResult();
+            Set<ConstraintViolation<Object>> constraintViolationSet = validator.validate(bean);
+            if (constraintViolationSet.size() > 0) {
+                validatorResult.setHasErrors(true);
+                constraintViolationSet.forEach(constraintViolation -> {
+                    String errmsg = constraintViolation.getMessage();
+                    String propertyName = constraintViolation.getPropertyPath().toString();
+                    validatorResult.getErrorMsgMap().put(propertyName, errmsg);
+                });
+            }
+            return validatorResult;
     }
 
 }

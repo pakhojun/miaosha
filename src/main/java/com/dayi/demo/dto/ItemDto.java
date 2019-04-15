@@ -29,6 +29,8 @@ public class ItemDto {
     @NotBlank(message = "图片不能为空")
     private String imgUrl;
 
+    private PromoDto promoDto;
+
     public Integer getId() {
         return id;
     }
@@ -83,5 +85,13 @@ public class ItemDto {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public PromoDto getPromoDto() {
+        return promoDto;
+    }
+
+    public void setPromoDto(PromoDto promoDto) {
+        this.promoDto = promoDto;
     }
 }

@@ -3,11 +3,13 @@ package com.dayi.demo.service.impl;
 import com.dayi.demo.dao.ItemMapper;
 import com.dayi.demo.dao.ItemStockMapper;
 import com.dayi.demo.dto.ItemDto;
+import com.dayi.demo.dto.PromoDto;
 import com.dayi.demo.error.BusinessErrorEmun;
 import com.dayi.demo.error.BusinessException;
 import com.dayi.demo.model.Item;
 import com.dayi.demo.model.ItemStock;
 import com.dayi.demo.service.ItemService;
+import com.dayi.demo.service.PromoService;
 import com.dayi.demo.validator.ValidatorImpl;
 import com.dayi.demo.validator.ValidatorResult;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +36,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemStockMapper itemStockMapper;
+
+    @Autowired
+    private PromoService promoService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -89,7 +94,20 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemMapper.selectByPrimaryKey(id);
         ItemStock itemStock = itemStockMapper.getItemStockByItemId(id);
         ItemDto itemDto = convertItemDtoFromItemAndItemStock(item, itemStock);
+        PromoDto promoDto = promoService.getPromoByItemId(id);
+        if (promoDto != null && promoDto.getStatus() != 3) {
+            itemDto.setPromoDto(promoDto);
+        }
         return itemDto;
+    }
+
+    @Override
+    public boolean doDecreaseStock(Integer itemId, Integer amount) {
+        int count = itemStockMapper.decreaseStock(itemId, amount);
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 
     private ItemDto convertItemDtoFromItemAndItemStock(Item item, ItemStock itemStock) {

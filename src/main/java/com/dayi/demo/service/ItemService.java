@@ -16,4 +16,6 @@ public interface ItemService {
     List<ItemDto> listItem();
 
     ItemDto getItemById(Integer id);
+
+    boolean doDecreaseStock(Integer itemId, Integer amount);
 }

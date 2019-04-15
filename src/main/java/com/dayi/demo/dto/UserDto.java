@@ -29,6 +29,8 @@ public class UserDto {
 
     private String encrptPassword;
 
+    private Integer promoId;
+
     public Integer getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class UserDto {
 
     public void setEncrptPassword(String encrptPassword) {
         this.encrptPassword = encrptPassword;
+    }
+
+    public Integer getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(Integer promoId) {
+        this.promoId = promoId;
     }
 }

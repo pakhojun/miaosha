@@ -2,6 +2,7 @@ package com.dayi.demo.controller;
 
 import com.dayi.demo.common.CommonResult;
 import com.dayi.demo.dto.ItemDto;
+import com.dayi.demo.dto.PromoDto;
 import com.dayi.demo.error.BusinessException;
 import com.dayi.demo.service.ItemService;
 import com.dayi.demo.vo.ItemVo;
@@ -32,7 +33,7 @@ public class ItemController extends BaseController {
     @RequestMapping("addItem")
     @ResponseBody
     public CommonResult addItem(@RequestParam("title") String title,
-                                @RequestParam("price")BigDecimal price,
+                                @RequestParam("price") BigDecimal price,
                                 @RequestParam("stock") Integer stock,
                                 @RequestParam("description") String description,
                                 @RequestParam("imgUrl") String imgUrl) throws BusinessException {
@@ -62,6 +63,15 @@ public class ItemController extends BaseController {
         }
         ItemVo itemVo = new ItemVo();
         BeanUtils.copyProperties(itemDto, itemVo);
+        if (itemDto.getPromoDto() == null) {
+            itemVo.setStatus(0);
+        } else {
+            PromoDto promoDto = itemDto.getPromoDto();
+            itemVo.setStatus(promoDto.getStatus());
+            itemVo.setPromoName(promoDto.getPromoName());
+            itemVo.setStartDate(promoDto.getStartDate());
+            itemVo.setPromoPrice(promoDto.getPromoPrice());
+        }
         return itemVo;
     }
 
